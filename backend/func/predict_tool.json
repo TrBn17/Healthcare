@@ -1,0 +1,55 @@
+{
+    "name": "predict_stroke",
+    "description": "Dự đoán nguy cơ đột quỵ dựa trên thông tin sức khỏe của bệnh nhân và trả về xác suất, kết quả dự đoán cùng giải thích SHAP.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "gender": {
+                "type": "string",
+                "enum": ["Male", "Female", "Other"],
+                "description": "Giới tính của bệnh nhân"
+            },
+            "age": {
+                "type": "number",
+                "description": "Tuổi của bệnh nhân (số thực, ví dụ: 67.0)"
+            },
+            "hypertension": {
+                "type": "integer",
+                "description": "Có tăng huyết áp không (0 = Không, 1 = Có)"
+            },
+            "heart_disease": {
+                "type": "integer",
+                "description": "Có bệnh tim không (0 = Không, 1 = Có)"
+            },
+            "ever_married": {
+                "type": "string",
+                "enum": ["Yes", "No"],
+                "description": "Đã từng kết hôn chưa"
+            },
+            "work_type": {
+                "type": "string",
+                "enum": ["Private", "Self-employed", "Govt_job", "children", "Never_worked"],
+                "description": "Loại công việc"
+            },
+            "Residence_type": {
+                "type": "string",
+                "enum": ["Urban", "Rural"],
+                "description": "Nơi cư trú"
+            },
+            "bmi": {
+                "type": "number",
+                "description": "Chỉ số khối cơ thể BMI (ví dụ: 28.5)"
+            },
+            "smoking_status": {
+                "type": "string",
+                "enum": ["formerly smoked", "never smoked", "smokes", "Unknown"],
+                "description": "Tình trạng hút thuốc"
+            },
+            "avg_glucose_level": {
+                "type": "number",
+                "description": "Nồng độ glucose trung bình (tùy chọn, mặc định = 106.0 nếu không biết)"
+            }
+        },
+        "required": ["gender", "age", "hypertension", "heart_disease", "ever_married", "work_type", "Residence_type", "bmi", "smoking_status"]
+    }
+}
