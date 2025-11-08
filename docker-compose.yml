@@ -1,0 +1,45 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: DockerFile
+    container_name: healthcare_app
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:8333:8333"
+    volumes:
+      - ./backend:/app
+      - ./healthcare-dataset-stroke-data.csv:/app/healthcare-dataset-stroke-data.csv
+    networks:
+      - project_network
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    environment:
+      - PYTHONPATH=/app
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: predict_postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/01-init-db.sql
+    networks:
+      - project_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  project_network:
+    driver: bridge
