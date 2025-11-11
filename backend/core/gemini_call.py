@@ -35,7 +35,7 @@ def chat_with_gemini(user_message: str):
 
 def chat_with_gemini_stream(user_message: str):
     for chunk in client.models.generate_content_stream(
-        model="gemini-2.0-flash-exp",
+        model="gemini-2.0-flash",
         contents=user_message,
         config=config,
     ):

@@ -1,16 +1,16 @@
 services:
   app:
     build:
-      context: .
-      dockerfile: DockerFile
+      context: ..
+      dockerfile: backend/DockerFile
     container_name: healthcare_app
     env_file:
       - .env
     ports:
       - "127.0.0.1:8333:8333"
     volumes:
-      - ./backend:/app
-      - ./healthcare-dataset-stroke-data.csv:/app/healthcare-dataset-stroke-data.csv
+      - .:/app
+      - ../healthcare-dataset-stroke-data.csv:/app/healthcare-dataset-stroke-data.csv
     networks:
       - project_network
     depends_on:

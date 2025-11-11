@@ -33,6 +33,19 @@ class UserRepository:
     def get_by_email(self, email: str) -> Optional[User]:
         return self.db.query(User).filter(User.email == email).first()
     
+    def get_all(self, skip: int = 0, limit: int = 100) -> list[User]:
+        return self.db.query(User).offset(skip).limit(limit).all()
+    
+    def update(self, user_id: int, user_data: dict) -> Optional[User]:
+        user = self.get_by_id(user_id)
+        if user:
+            for key, value in user_data.items():
+                if value is not None and hasattr(user, key):
+                    setattr(user, key, value)
+            self.db.commit()
+            self.db.refresh(user)
+        return user
+    
     def update_health_data(self, user_id: int, health_data: dict) -> Optional[User]:
         user = self.get_by_id(user_id)
         if user:
@@ -42,6 +55,14 @@ class UserRepository:
             self.db.commit()
             self.db.refresh(user)
         return user
+    
+    def delete(self, user_id: int) -> bool:
+        user = self.get_by_id(user_id)
+        if user:
+            self.db.delete(user)
+            self.db.commit()
+            return True
+        return False
 
 class ChatRepository:
     def __init__(self, db: Session):
